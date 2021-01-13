@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "frequency.h"
 
 // Util Functions
@@ -21,8 +22,18 @@ int getWord(char **w) {
         }
     //This loop will break when reached EOF, space, tab, or line break
     } while (get_char != EOF && get_char != '\n' &&  get_char != '\t' && get_char != ' ');
-    if (get_char == EOF) return -1; //return -1 because reached EOF.
-    if (counter == 0) return 0;
+    if (get_char == EOF && counter == 0) {
+        free(word);
+        return -1; //return -1 because reached EOF.
+    }
+    if (get_char == EOF && counter == 0) {
+        free(word);
+        return -1; //return -1 because reached EOF.
+    }
+    if (counter == 0) {
+        free(word);
+        return 0;
+    }
     word[counter] = '\0';
     *w=word;
     return counter;
@@ -53,8 +64,9 @@ Node* new_node(char letter) {
     return node_p;
 }
 
-void assign_word_to_node(Node **node, char *word) {
-    (*node) ->_word = word;
+void assign_word_to_node(Node **node, const char *word) {
+    (*node) ->_word = (char*)malloc((strlen(word) * sizeof(char)) + sizeof(char));
+    strcpy((*node) ->_word, word);
 }
 
 void print_node(Node **node) {
@@ -145,8 +157,9 @@ void add_word_to_trie(Trie **trie, char *word) {
     */
     if (current_node == (*trie) -> _head) return;
     
+    if (current_node -> _count == 0)
+        assign_word_to_node(&current_node, word);
     current_node -> _count++;
-    assign_word_to_node(&current_node, word);
 }
 
 void print_trie(Trie **trie) {

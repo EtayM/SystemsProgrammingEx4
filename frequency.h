@@ -15,7 +15,7 @@ typedef struct _Trie Trie;
 
 // Signatures of Node Functions
 Node* new_node(char letter);
-void assign_word_to_node(Node **node, char *word);
+void assign_word_to_node(Node **node, const char *word);
 void print_node(Node **node);
 void print_node_backwards(Node **node);
 void free_node(Node *node);

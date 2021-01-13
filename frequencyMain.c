@@ -6,13 +6,13 @@
 
 int main(int argc, char *argv[]) {
     Trie *trie = new_trie();
-    char *word;
+    char *word = NULL;
     int num_of_letters = 0;
     while ((num_of_letters = getWord(&word)) != -1) {
         if (num_of_letters > 0) {
             add_word_to_trie(&trie, word);
         }
-        //free(word);
+        free(word);
     }
     if (argc <2) {
         print_trie(&trie);
